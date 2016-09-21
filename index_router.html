@@ -1,0 +1,114 @@
+<html>
+	<head>
+		<title>Document</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/components/table.min.css"/>
+	  <meta charset="utf-8">
+	</head>
+
+	<body>
+		<div id ="app">
+			<!-- v-link는 라우터 기반 응용 프로그램 에서 사용자 탐색 을 가능하게 하고 자바스크립에 전달됩니다 , 내부적 router.go(path) path는 string 또는 object가 될 수 있습니다.   -->
+			<a v-link="{ path: '/press' }">Go to Press</a>
+			<a v-link="{ path: '/mold' }">Go to Mold</a>
+
+			<!-- 
+				vue는 동적인 컨포넌트시스템을 기반으로 일반 동적 요소에서 많은 기능을 상속합니다. 
+				화면에 이미 보여진 요소를 내부 html에서 사용할 수 있고, v-ref 지원함, 렌더링(보여진)요소는 부모(상속관련)구성요소에 등록되어야됨. 
+				몇가지 제한사항이 있는데 keep-alive 0.7.2+ 실헐적 지원하고있고, wait-for지원이 안됨  
+			-->
+			<router-view></router-view>
+
+			<!-- HTML5
+				template - 특별한 어플리케이션을 위한 시작점으로 사용되는 미리 작성된 형식을 가진 문서나 파일입니다. 즉, 형식(Format)은 사용될 때마다 매번 재생성하지 않아도 됩니다.
+				개발자들이 사용하는 '뷰'라고 표현하는 계층을 위한 공통의 동작원리를 template이라는 형태로 공유하여 사용합니다.
+				캡슐화된 컴포넌트를 정의하여 문서 내에서 재사용하고 요구사항에 따라 컴포넌트의 내부를 깨뜨리지 않으면서 확장할 수 있습니다.
+			 -->
+			<template id="temp">
+				<h1>{{ message }}</h1>
+				<table class="ui fixed single line celled table">
+					<thead>
+						<tr>
+							<th>번호</th>
+							<th>설비명</th>
+							<th>구분</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="d in data">
+							<td>{{ $index + 1 }}</td>
+							<td>{{ d.key }}</td>
+							<td>{{ d.value }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</template>
+		</div>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
+
+		<!-- vue-router - cdn주소로 외부스크립트 연결하기 -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/0.7.13/vue-router.min.js"></script>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js"></script>
+
+		<script>
+			/* Router인스턴스 생성 */
+			var router = new VueRouter();
+
+			var press = {
+				message: 'Press Equipment',
+				data: [
+				  { "key": "205톤 1호기", "value": "250TON" },
+				  { "key": "205톤 2호기", "value": "250TON" },
+				  { "key": "205톤 4호기", "value": "250TON" },
+				  { "key": "205톤 5호기", "value": "250TON" },
+				  { "key": "205톤 6호기", "value": "250TON" },
+				  { "key": "300톤 1호기", "value": "300TON" },
+				  { "key": "400톤 1호기", "value": "400TON" },
+				  { "key": "400톤 2호기", "value": "400TON" },
+				  { "key": "400톤 3호기", "value": "400TON" },
+				  { "key": "400톤 4호기", "value": "400TON" }
+				]
+			};
+
+			var mold = {
+				message: 'Mold Equipment',
+				data: [
+					{ "key": "엔겔7호기(ENGEL)", "value": "100 TON T/T" },
+					{ "key": "모템5호기(프로막스)", "value": "120 TON" },
+					{ "key": "엔겔5호기(ENGEL)", "value": "120 TON" },
+					{ "key": "엔겔6호기(ENGEL)", "value": "120 TON" },
+					{ "key": "모템5호기(프로막스)", "value": "150 TON" },
+					{ "key": "모템6호기(프로막스)", "value": "150 TON" },
+					{ "key": "모템7호기(프로막스)", "value": "150 TON" },
+					{ "key": "모템8호기(프로막스)", "value": "150 TON" },
+					{ "key": "모템9호기(턴테이블)", "value": "150 TON T/T" },
+					{ "key": "모템10호기(턴테이블)", "value": "150 TON T/T" }
+				]
+			};
+
+			/* 각 경로를 맵핑 */
+			router.map({
+				/*  /press 경로 맵핑하여 요청이 들어오면 실행됨 */
+				'/press' : {
+					/* 맵핑 경로가 일치할때 id가 temp인 태그를 찾아 template에 화면을 구성함, return값은 press객체입니다. */
+					component: {
+						template: '#temp',
+						data: function() { return press }
+					}
+				},
+				'/mold' : {
+					component: {
+						template: '#temp',
+						data: function() { return mold }
+					}
+				}
+			});
+
+			/* router기반 응용프로그램을 시작합니다.(App, el, [callback])의 형식인데 el인 '#app'을 마운트하고 초기값은 {}빈객체입니다. */
+			router.start({}, '#app')
+		</script>
+	</body>
+</html>

@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <title>Document</title>
+    
+    <!-- 전체적인 주석 내용은  https://vuejs.org/api/를 기초로 하여 제가 생각한 방식으로 번역했습니다. -->
+    
+
+    <!-- 외부 css 주소를 연결하여 html내의 table 스타일 적용합니다 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/components/table.min.css"/>
+
+    <!-- 이 속성은 페이지에서 사용되는 문자 인코딩을 선언합니다 (한국어 웹문서 인코딩)-->
+    <meta charset="utf-8">
+  </head>
+
+  <body>
+
+    <!-- (DOM)웹문서 전체를 감싸는 태그입니다. -->
+    <div id ="app">
+
+      <!-- Press Equipment -->
+      <h1> {{ message }}</h1>
+
+      <!-- table의 속성을 위해 여러가지 class명으로 선언하여 스타일을 지정합니다. -->
+      <table class="ui fixed single line celled table">
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>설비명</th>
+            <th>구분</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <!-- 번호는 증가시키며, press에 담긴 값을 반복하여 key와 value를  <td>추가합니다. -->
+          <tr v-for="p in press">
+            <td>{{ $index + 1 }}</td>
+            <td>{{ p.key }}</td>
+            <td>{{ p.value }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- jquery - cdn주소로 외부스크립트 연결 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <!-- vue - cdn주소로 외부스크립트 연결  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
+    <!-- semantic-ui- cdn주소로 외부스크립트 연결  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js"></script>
+
+    <script>
+      /* data 변수선언/객체정보 생성하여 Vue에서 사용합니다.  */
+      var data = {
+        message: 'Press Equipment',
+        press: [
+          { "key": "205톤 1호기", "value": "250TON" },
+          { "key": "205톤 2호기", "value": "250TON" },
+          { "key": "205톤 4호기", "value": "250TON" },
+          { "key": "205톤 5호기", "value": "250TON" },
+          { "key": "205톤 6호기", "value": "250TON" },
+          { "key": "300톤 1호기", "value": "300TON" },
+          { "key": "400톤 1호기", "value": "400TON" },
+          { "key": "400톤 2호기", "value": "400TON" },
+          { "key": "400톤 3호기", "value": "400TON" },
+          { "key": "400톤 4호기", "value": "400TON" }
+        ]
+      };
+
+      /* el을 통해 body안에 Vue 인스턴스 객체를 제공하여 사용 할 수 있게 합니다  */
+      new Vue({
+        el: '#app',
+        data : data
+      });
+    </script>
+  </body>
+</html>

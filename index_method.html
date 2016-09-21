@@ -1,0 +1,112 @@
+<html>
+	<head>
+		<title>Document</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/components/icon.min.css"/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/components/table.min.css"/>
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+	  <div id ="app">
+			<a v-link="{ path: '/press' }">Go to Press</a>
+			<a v-link="{ path: '/mold' }">Go to Mold</a>
+
+			<router-view></router-view>
+
+			<template id="temp">
+				<h1> {{ message }}</h1>
+				<table class="ui fixed single line celled table">
+					<thead>
+						<tr>
+							<th>번호</th>
+							<th>설비명</th>
+							<th>구분</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="d in data">
+							<td>{{ $index + 1 }}</td>
+							<td>{{ d.key }} <i class="info circle link icon" v-on:click="a(d.key)"></i></td>
+							<td>{{ d.value }} <i class="info circle link icon" v-on:click="b(d.value)"></i></td>
+						</tr>
+					</tbody>
+				</table>
+			</template>
+		</div>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/0.7.13/vue-router.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js"></script>
+
+		<script>
+			var router = new VueRouter();
+
+			var press = {
+				message: 'Press Equipment',
+				data: [
+				  { "key": "205톤 1호기", "value": "250TON" },
+				  { "key": "205톤 2호기", "value": "250TON" },
+				  { "key": "205톤 4호기", "value": "250TON" },
+				  { "key": "205톤 5호기", "value": "250TON" },
+				  { "key": "205톤 6호기", "value": "250TON" },
+				  { "key": "300톤 1호기", "value": "300TON" },
+				  { "key": "400톤 1호기", "value": "400TON" },
+				  { "key": "400톤 2호기", "value": "400TON" },
+				  { "key": "400톤 3호기", "value": "400TON" },
+				  { "key": "400톤 4호기", "value": "400TON" }
+				]
+			};
+
+			var mold = {
+				message: 'Mold Equipment',
+				data: [
+					{ "key": "엔겔7호기(ENGEL)", "value": "100 TON T/T" },
+					{ "key": "모템5호기(프로막스)", "value": "120 TON" },
+					{ "key": "엔겔5호기(ENGEL)", "value": "120 TON" },
+					{ "key": "엔겔6호기(ENGEL)", "value": "120 TON" },
+					{ "key": "모템5호기(프로막스)", "value": "150 TON" },
+					{ "key": "모템6호기(프로막스)", "value": "150 TON" },
+					{ "key": "모템7호기(프로막스)", "value": "150 TON" },
+					{ "key": "모템8호기(프로막스)", "value": "150 TON" },
+					{ "key": "모템9호기(턴테이블)", "value": "150 TON T/T" },
+					{ "key": "모템10호기(턴테이블)", "value": "150 TON T/T" }
+				]
+			};
+
+			router.map({
+				'/press' : {
+					component: {
+						template: '#temp',
+						data: function() { return press },
+						methods: {
+							a: function(key) {
+								return alert(key)
+							},
+							b: function(value) {
+								return alert(value)
+							}
+						}
+					}
+				},
+				
+				'/mold' : {
+					component: {
+						template: '#temp',
+						data: function() { return mold },
+						methods: {
+							a: function(key) {
+								return alert(key)
+							},
+							b: function(value) {
+								return alert(value)
+							}
+						}
+					}
+				}
+			});
+
+			router.start({}, '#app')
+		</script>
+	</body>
+</html>
